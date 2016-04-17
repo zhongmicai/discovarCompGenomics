@@ -4,7 +4,10 @@
 ## This is a wrapper script to run the data processing from the multiple alignment output of cactus to fasta files.
 ##
 ## Inputs: 1) hal file 2) gff file 3) reference genome name 4) min coverage 5) max gap length 6) min block length
-## Outputs: 1) depth (number of genomes aligned) for each refernce base
+## Outputs: 1) depth (number of genomes aligned) for each refernce base 2) bed file of blocks with good coverage
+##      3) a sorted version of the good coverage blocks 4) the gff file converted to bed 5) the high coverage blocks within genes
+##      6) the high coverage blocks outside of genes 7) maf alignments of (3) 8) maf alignments of (5) 9) maf alignments of (6)
+##      10) fasta alignments of (3) 11) fasta alignments of (5) 12) fasta alignments of (6)
 ##
 ## Usage: coveragePipeline.sh <hal> <gff> <reference genome> <min coverage> <max gap length> <min block length> outputFolder
 ######################################################################################################################
@@ -39,7 +42,7 @@ geneMafs=outputFolder/$base\_genicBlocks.maf
 interGeneMafs=outputFolder/$base\_interGenicBlocks.maf
 allFasta=outputFolder/$base\_allGoodCoverage.fasta
 geneFasta=outputFolder/$base\_genicBlocks.fasta
-interGeneFastautputFolder/$base\_interGenicBlocks.fasta
+interGeneFasta=outputFolder/$base\_interGenicBlocks.fasta
 
 ############ script ################
 #find depth at each reference base pair
