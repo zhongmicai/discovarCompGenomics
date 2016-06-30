@@ -1,7 +1,10 @@
 # DiscovarCompGenomics
 
 Contents of folders:
+
 Data
+**Turns out the data is too big to easily put onto github...these files can be found on odyssey at /n/regal/mallet_lab/edelman/18Genomes/results/DiscovarCompGenomics/data**
+
   - Hmel2.gff is the gff file with gene calls from the Hmel2 January 2016 release
   - subTree_18Genomes.hal is the output from progressive cactus of the tree with
       H. melpomene reference, H. melpomene discovar, H. cydno, H. timareta, and H. numata
