@@ -54,17 +54,16 @@ class mafAttributes(object):
     def getSeq(self):
         return self.seq
 
-def mafToBedDict(mafFile, outFile):
-    '''  Takes a maf file (like the output of LAST
-        outputs a dictionary. Each key is a different query contig;  the value for each is
-        a list of lists. Each single list contains ordered attributes to write to a bed file'''
+def mafToFasta(mafFile, outFile):
+    '''  Takes a maf file
+        outputs a fasta alignment file.'''
     output=open(outFile, "w")
     with open(mafFile, "r") as file:
         for line in file:
             if "#" in line:
                 output.write(line)
             else:
-                maf=mafAttributes(line)                                                    
+                maf=mafAttributes(line)
                 if maf.getType() =='s':
                     chrom=maf.getLabel()[:-3]
                     scaf=maf.getLabel()
@@ -80,10 +79,8 @@ def mafToBedDict(mafFile, outFile):
                 else:
                     pass
 
-    
+
 mafInput=sys.argv[1]
 fastaOutput=sys.argv[2]
 
-mafToBedDict(mafInput, fastaOutput)
-
-
+mafToFasta(mafInput, fastaOutput)

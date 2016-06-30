@@ -13,17 +13,18 @@
 ######################################################################################################################
 
 ########### load dependencies #############
-module load halTools
-module load bedTools
-module load bedOps
+module load hal
+module load bedtools
+module load legacy
+module load centos6/bedops-2.3.0
 
 ########### read in Variables ############
 halFile=$1
-gffFile=$2
-refGenome=$3
-minCov=$4
-maxGap=$5
-minLength=$6
+#gffFile=$2
+refGenome=$2
+minCov=$3
+maxGap=$4
+minLength=$5
 base=$(basename $halFile .hal)
 gffBase=$(basename $gffFile .gff)
 
@@ -46,7 +47,7 @@ interGeneFasta=outputFolder/$base\_interGenicBlocks.fasta
 
 ############ script ################
 #find depth at each reference base pair
-halAlignmentDepth $halFile $refGenome > $depthFile
+halAlignmentDepth --outWiggle --noAncestors $halFile $refGenome > $depthFile
 
 #find high-depth genomic segments
 wigToBed.py $depthFile $extractedBlocks $minCov $maxGap $minLength
@@ -54,19 +55,19 @@ wigToBed.py $depthFile $extractedBlocks $minCov $maxGap $minLength
 ## extract interesting slices of the data in maf format
 #extract all high-depth segments
 sort -k1,1 -k2,2n $extractedBlocks > $allBlocksSort
-hal2maf --refGenome=$refGenome --refTargets=$allBlocksSort $halFile > $allMafs
-mafToFasta $allMafs $allFasta
+hal2maf --refGenome $refGenome --refTargets $allBlocksSort $halFile $allMafs
+mafToFasta.py $allMafs $allFasta
 
 #extract only protein coding genes with high depth
-gff2bed < $gffFile > $gffBed #this converts the gff to a sorted maf
-bedTools intersect -sorted -a $allBlocksSort -b $gffBed > $geneBlocks
-hal2maf --refGenome=$refGenome --refTargets=$geneBlocks $halFile > $geneMafs
-mafToFasta $geneMafs $geneFasta
+#gff2bed < $gffFile > $gffBed #this converts the gff to a sorted maf
+#bedTools intersect -sorted -a $allBlocksSort -b $gffBed > $geneBlocks
+#hal2maf --refGenome $refGenome --refTargets $geneBlocks $halFile > $geneMafs
+#mafToFasta.py $geneMafs $geneFasta
 
 #extract regions outside of known protein-coding genes
-bedTools intersect -v -sorted -a $allBlocksSort -b $gffBed > $interGeneBlocks
-hal2maf --refGenome=$refGenome --refTargets=$interGeneBlocks $halFile > $interGeneMafs
-mafToFasta $interGeneMafs $interGeneFasta
+#bedTools intersect -v -sorted -a $allBlocksSort -b $gffBed > $interGeneBlocks
+#hal2maf --refGenome $refGenome --refTargets $interGeneBlocks $halFile > $interGeneMafs
+#mafToFasta.py $interGeneMafs $interGeneFasta
 
 
 
