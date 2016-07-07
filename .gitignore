@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.fa
+*.maf
+*.gp
+*.pdf
+*.gff
+*.gz
+data/nano.save

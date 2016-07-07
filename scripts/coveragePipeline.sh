@@ -47,7 +47,7 @@ interGeneFasta=outputFolder/$base\_interGenicBlocks.fasta
 
 ############ script ################
 #find depth at each reference base pair
-halAlignmentDepth --outWiggle --noAncestors $halFile $refGenome > $depthFile
+halAlignmentDepth --outWiggle $depthFile --noAncestors $halFile $refGenome
 
 #find high-depth genomic segments
 wigToBed.py $depthFile $extractedBlocks $minCov $maxGap $minLength
@@ -68,14 +68,3 @@ mafToFasta.py $allMafs $allFasta
 #bedTools intersect -v -sorted -a $allBlocksSort -b $gffBed > $interGeneBlocks
 #hal2maf --refGenome $refGenome --refTargets $interGeneBlocks $halFile > $interGeneMafs
 #mafToFasta.py $interGeneMafs $interGeneFasta
-
-
-
-
-
-
-
-
-
-
-
