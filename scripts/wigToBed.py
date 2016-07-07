@@ -1,11 +1,11 @@
-#!/bin/env python
+#!/usr/bin/env python
 
 #wigToBed.py
 
 #Takes a wig file, and extracts regions of interest based on depth,length, and gap length
 #Outputs a bed file with each high quality region
 
-#Usage: wigToBed 
+#Usage: wigToBed
 
 import sys
 
@@ -62,7 +62,7 @@ def extractHighDepthBlocks(inputWig, outputBed, minCov, maxGap, minLength):
                     blockEnd=count-1
                     beds.append([chrom, blockStart, blockEnd])
                     inGap=False
-                    inBlock=False 
+                    inBlock=False
                     inTrial=False
                     count+=1
                 else:
@@ -92,12 +92,11 @@ def extractHighDepthBlocks(inputWig, outputBed, minCov, maxGap, minLength):
     out=open(outputBed, "w")
     for i in beds:
         out.write(str(i[0])+"\t"+str(i[1])+"\t"+str(i[2])+"\n")
-                
-inWig=sys.argv[1] 
+
+inWig=sys.argv[1]
 outBed=sys.argv[2]
 minCov=int(sys.argv[3])
 maxGap=int(sys.argv[4])
 minLength=int(sys.argv[5])
 
-extractHighDepthBlocks(inWig, outBed, minCov, maxGap, minLength)        
-            
+extractHighDepthBlocks(inWig, outBed, minCov, maxGap, minLength)

@@ -9,3 +9,9 @@
 *.gff
 *.gz
 data/nano.save
+
+results/subTreeAlignmentDepth.wig
+
+*.bed
+
+*.tsv
