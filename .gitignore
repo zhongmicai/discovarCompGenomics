@@ -15,3 +15,5 @@ results/subTreeAlignmentDepth.wig
 *.bed
 
 *.tsv
+
+results/subTreeAlignmentDepth.genome
