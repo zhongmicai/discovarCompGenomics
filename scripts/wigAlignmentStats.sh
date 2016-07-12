@@ -18,3 +18,10 @@ wigAlignmentStats.py $wigFile
 for i in $(seq 0 $highDepth);
 do wigToBed.py $wigFile $baseFile\_atLeast$i.bed  $i 0 1;
 done
+
+#Make a bed file with all the gaps using bedtools complement
+#requires a "genome file", which is just <scafname)\t<scafsize>.
+#conveniently, that's just columns 1 and 3 of the atLeast0 file.
+awk -v OFS="\t" '{print $1,$3}' $baseFile\_atLeast0.bed > $baseFile.genome
+
+bedtools complement -i  $baseFile\_atLeast1.bed -g $baseFile.genome > $baseFile\_gaps.bed
