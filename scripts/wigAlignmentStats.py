@@ -7,7 +7,7 @@ import numpy
 
 wigFile=sys.argv[1]
 baseFile=wigFile[:-4]
-coverageOut=baseFile+".tsv"
+coverageOut=baseFile+"_coverageDistribution.tsv"
 
 def countWig(inputWig):
     f=open(inputWig, "r")
