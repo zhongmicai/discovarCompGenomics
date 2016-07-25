@@ -1,12 +1,44 @@
 #ConservationAnalysis.R
+install.packages("seqinr")
 require(rphast)
+library(ggplot2)
+library(seqinr)
+
+
+# coverage depth ----------------------------------------------------------
+#make a pie chart of coverage depth
+depths=read.delim("results/subTreeAlignmentDepth_coverageDistribution.tsv", header=F,col.names=c("coverage","values"))
+depths$coverage=as.character(depths$coverage)
+depths$coverage=factor(depths$coverage, levels=c("0","1","2","3","4"))
+
+
+depth <- ggplot(data=depths, aes(x=coverage,y=values/sum(depths$values),fill=coverage))+
+  geom_bar(width=1, stat="identity")+geom_label(label=round(depths$values/sum(depths$values),3)) +
+  labs(title="Alignment Coverage",x="Coverage Depth",y="Fraction of Alignment")
+depth
+pie <- depth+coord_polar("y",start=0)
+pie
+
+#for exons only:
+exonDepth=read.delim("results/exonDepth.bed", header=F,col.names=c("chrom","start","end","id","coverage"))
+depthCounts=data.frame(cov=c("0","1","2","3","4"),depth=c(length(which(exonDepth$coverage==0)),length(which(exonDepth$coverage==1)),
+                                                length(which(exonDepth$coverage==2)),length(which(exonDepth$coverage==3)),
+                                                length(which(exonDepth$coverage==4))))
+exonGraph<- ggplot(data=depthCounts, aes(x=cov,y=depth/sum(depthCounts$depth),fill=cov))+
+  geom_bar(width=1, stat="identity")+geom_label(label=round(depthCounts$depth/sum(depthCounts$depth),3)) +
+  labs(title="Exon Coverage",x="Coverage Depth",y="Fraction of Alignment")
+exonGraph
 
 
 # find and graph most conserved elements ----------------------------------
 
+mafFile="data/subTree_18Genomes_Hmel201001.maf"
+gffFile="data/Hmel2.gff"
+scaffoldName="Hmel201001"
+referenceName="HmelRef"
+newickTree=butterflyTree
 
-
-getConservedRegions <- function(mafFile,gffFile,scaffoldName, referenceName, newickTree){
+getConservedRegions <- function(mafFile,gffFile,scaffoldName, referenceName, newickTree, leng, coverage){
   # read alignment
   align <- read.msa(mafFile)
   # read gene annotations from a gff file
@@ -37,8 +69,9 @@ getConservedRegions <- function(mafFile,gffFile,scaffoldName, referenceName, new
   #predict conserved model
   
   #predict conserved elements with phastCons
-  pc <- phastCons(align, neutralMod, expected.length=50,target.coverage=0.125,viterbi=TRUE)
+  pc <- phastCons(align, neutralMod, expected.length=leng,target.coverage=coverage,viterbi=TRUE, rho=.1)
   consElements <- pc$most.conserved
+  write.feat(consElements,paste0(scaffoldName,"conservedElements.gff"))
   
   #number of conserved bases
   #coverage.feat(consElements)
@@ -62,13 +95,13 @@ getConservedRegions <- function(mafFile,gffFile,scaffoldName, referenceName, new
   phyloPTrack <- as.track.wig(coord=pp$coord, score=pp$score, name="phyloP score",
                               col="blue", smooth=TRUE, horiz.line=0)
   plot.track(list(geneTrack, consElTrack, phastConsScoreTrack, phyloPTrack),
-             xlim=c(0, 10000), cex.labels=1.25, cex.axis=1.25, cex.lab=1.5,main=paste(scaffoldName,"Conserved Elements"))
+             xlim=c(0, 50000), cex.labels=1.25, cex.axis=1.25, cex.lab=1.5,main=paste(scaffoldName,"Conserved Elements"))
 }
   
 # define tree using Newick string
 butterflyTree <- "(((HmelRef,HmelDisco),(Hcyd,Htim)),Hnum);"
 
-getConservedRegions("data/subTree_18Genomes_Hmel201001.maf","data/Hmel2.gff","Hmel201001","HmelRef",butterflyTree)
+getConservedRegions("data/subTree_18Genomes_Hmel201009.maf","data/Hmel2.gff","Hmel201009","HmelRef",butterflyTree, 6,.50)
 
 
 # extract genic regions, translate, and re-align --------------------------
@@ -83,5 +116,6 @@ extractFeatures <- function(mafFile,gffFile, scaffoldName, referenceName){
   return(extract.feature.msa(x = align,features = scaffoldFeats))
 }
 
-genes <- extractFeatures("data/subTree_18Genomes_Hmel201001.maf","data/Hmel2.gff","Hmel201001","HmelRef")
+genes <- extractFeatures("data/subTree_18Genomes_Hmel201009.maf","data/Hmel2.gff","Hmel201009","HmelRef")
 
+translated <- translate.msa(genes)
