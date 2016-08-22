@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 #ConservationAnalysis.R
 require(rphast)
 
@@ -37,7 +39,7 @@ getConservedRegions <- function(mafFile,gffFile,scaffoldName, referenceName, new
   #predict conserved model
   
   #predict conserved elements with phastCons
-  pc <- phastCons(align, neutralMod, expected.length=50,target.coverage=0.125,viterbi=TRUE)
+  pc <- phastCons(align, neutralMod,viterbi=TRUE, target.coverage=.25)# expected.length=12,target.coverage=0.525,viterbi=TRUE)
   consElements <- pc$most.conserved
   
   #number of conserved bases
@@ -61,27 +63,33 @@ getConservedRegions <- function(mafFile,gffFile,scaffoldName, referenceName, new
                                       name="phastCons post prob", col="red", ylim=c(0, 1))
   phyloPTrack <- as.track.wig(coord=pp$coord, score=pp$score, name="phyloP score",
                               col="blue", smooth=TRUE, horiz.line=0)
+  jpeg("trial.jpeg")
   plot.track(list(geneTrack, consElTrack, phastConsScoreTrack, phyloPTrack),
-             xlim=c(0, 10000), cex.labels=1.25, cex.axis=1.25, cex.lab=1.5,main=paste(scaffoldName,"Conserved Elements"))
+             xlim=c(0, 50000), cex.labels=1.25, cex.axis=1.25, cex.lab=1.5,main=paste(scaffoldName,"Conserved Elements"))
+  dev.off()
 }
   
 # define tree using Newick string
-butterflyTree <- "(((HmelRef,HmelDisco),(Hcyd,Htim)),Hnum);"
+butterflyTree <- "(((((HmelRef,HmelDisco),(Hcyd,Htim)),Hnum),Hera),Etal);"
+subTree <- "(((HmelRef,HmelDisco),(Hcyd,Htim)),Hnum);"
 
-getConservedRegions("data/subTree_18Genomes_Hmel201001.maf","data/Hmel2.gff","Hmel201001","HmelRef",butterflyTree)
-
+getConservedRegions("results/finalAssemblies_expandedSubTree/finalAssemblies_expandedSubTree_Hmel201009.maf","data/Hmel2.gff","Hmel201009","HmelRef",butterflyTree)
+mafFile="data/subTree_18Genomes_Hmel201001.maf"
+gffFile="data/Hmel2.gff"
+scaffoldName="Hmel201001"
+referenceName="HmelRef"
 
 # extract genic regions, translate, and re-align --------------------------
 
-extractFeatures <- function(mafFile,gffFile, scaffoldName, referenceName){
-  align <- read.msa(mafFile)
-  # read gene annotations from a gff file
-  feats <- read.feat(gffFile)
-  scaffoldFeats <- subset(feats, seqname==scaffoldName)
-  scaffoldFeats$seqname <- referenceName
-  scaffoldFeats <- scaffoldFeats[scaffoldFeats$feature == "exon",]
-  return(extract.feature.msa(x = align,features = scaffoldFeats))
-}
-
-genes <- extractFeatures("data/subTree_18Genomes_Hmel201001.maf","data/Hmel2.gff","Hmel201001","HmelRef")
+# extractFeatures <- function(mafFile,gffFile, scaffoldName, referenceName){
+#   align <- read.msa(mafFile)
+#   # read gene annotations from a gff file
+#   feats <- read.feat(gffFile)
+#   scaffoldFeats <- subset(feats, seqname==scaffoldName)
+#   scaffoldFeats$seqname <- referenceName
+#   scaffoldFeats <- scaffoldFeats[scaffoldFeats$feature == "exon",]
+#   return(extract.feature.msa(x = align,features = scaffoldFeats))
+# }
+# 
+# genes <- extractFeatures("data/subTree_18Genomes_Hmel201001.maf","data/Hmel2.gff","Hmel201001","HmelRef")
 
