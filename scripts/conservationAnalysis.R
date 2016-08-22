@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 #ConservationAnalysis.R
 install.packages("seqinr")
 require(rphast)
@@ -100,32 +102,39 @@ getConservedRegions <- function(mafFile,gffFile,scaffoldName, referenceName, new
                                       name="phastCons post prob", col="red", ylim=c(0, 1))
   phyloPTrack <- as.track.wig(coord=pp$coord, score=pp$score, name="phyloP score",
                               col="blue", smooth=TRUE, horiz.line=0)
+  jpeg("trial.jpeg")
   plot.track(list(geneTrack, consElTrack, phastConsScoreTrack, phyloPTrack),
              xlim=c(0, 100000), cex.labels=1.25, cex.axis=1.25, cex.lab=1.5,main=paste(scaffoldName,"Conserved Elements"))
+  dev.off()
 }
+
   
 # define tree using Newick string
-butterflyTree <- "(((HmelRef,HmelDisco),(Hcyd,Htim)),Hnum);"
+butterflyTree <- "(((((HmelRef,HmelDisco),(Hcyd,Htim)),Hnum),Hera),Etal);"
+subTree <- "(((HmelRef,HmelDisco),(Hcyd,Htim)),Hnum);"
 lepTree <- "(Papilio_glaucus_v1x1 (Lerema_accius_v1x1 (Danaus_plexippus_v3 (Bicyclus_anynana_v1 (Melitaea_cinxia_v1 Heliconius_melpomene_v2)))));"
 drosTree <- '((droGri2:0.183954,droVir3:0.093575):0.000000,(droMoj3:0.110563,((((droBip:0.034265,droAna3:0.042476):0.121927,(droKik:0.097564,((droFic:0.109823,(((dm3:0.023047,(droSim1:0.015485,droSec1:0.015184):0.013850):0.016088,(droYak2:0.026909,droEre2:0.029818):0.008929):0.047596,(droEug:0.102473,(droBia:0.069103,droTak:0.060723):0.015855):0.005098):0.010453):0.008044,(droEle:0.062413,droRho:0.051516):0.015405):0.046129):0.018695):0.078585,(droPer1:0.007065,dp4:0.005900):0.185269):0.068212,droWil1:0.259408):0.097093):0.035250);'
 
-getConservedRegions("data/subTree_18Genomes_Hmel201009.maf","data/Hmel2.gff","Hmel201009","HmelRef",butterflyTree, 6,.50)
-
-
-
+getConservedRegions("results/finalAssemblies_expandedSubTree/finalAssemblies_expandedSubTree_Hmel201009.maf","data/Hmel2.gff","Hmel201009","HmelRef",butterflyTree)
+mafFile="data/subTree_18Genomes_Hmel201001.maf"
+gffFile="data/Hmel2.gff"
+scaffoldName="Hmel201001"
+referenceName="HmelRef"
 
 # extract genic regions, translate, and re-align --------------------------
 
-extractFeatures <- function(mafFile,gffFile, scaffoldName, referenceName){
-  align <- read.msa(mafFile)
-  # read gene annotations from a gff file
-  feats <- read.feat(gffFile)
-  scaffoldFeats <- subset(feats, seqname==scaffoldName)
-  scaffoldFeats$seqname <- referenceName
-  scaffoldFeats <- scaffoldFeats[scaffoldFeats$feature == "exon",]
-  return(extract.feature.msa(x = align,features = scaffoldFeats))
-}
 
-genes <- extractFeatures("data/subTree_18Genomes_Hmel201009.maf","data/Hmel2.gff","Hmel201009","HmelRef")
+# extractFeatures <- function(mafFile,gffFile, scaffoldName, referenceName){
+#   align <- read.msa(mafFile)
+#   # read gene annotations from a gff file
+#   feats <- read.feat(gffFile)
+#   scaffoldFeats <- subset(feats, seqname==scaffoldName)
+#   scaffoldFeats$seqname <- referenceName
+#   scaffoldFeats <- scaffoldFeats[scaffoldFeats$feature == "exon",]
+#   return(extract.feature.msa(x = align,features = scaffoldFeats))
+# }
+# 
+# genes <- extractFeatures("data/subTree_18Genomes_Hmel201001.maf","data/Hmel2.gff","Hmel201001","HmelRef")
+
 
 translated <- translate.msa(genes)
