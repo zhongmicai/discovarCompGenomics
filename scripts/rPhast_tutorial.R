@@ -70,7 +70,7 @@ phastConsScoreTrack <- as.track.wig(wig=pc$post.prob.wig,
 phyloPTrack <- as.track.wig(coord=pp$coord, score=pp$score, name="phyloP score",
                             col="blue", smooth=TRUE, horiz.line=0)
 plot.track(list(geneTrack, consElTrack, phastConsScoreTrack, phyloPTrack),
-           xlim=c(60000, 68000), cex.labels=1.25, cex.axis=1.25, cex.lab=1.5)
+           xlim=c(60000, 68000), cex.labels=1.25, cex.axis=1.25, cex.lab=1.5, main="Tomato tutorial")
 
 
 # Now let us examine the predicted conserved elements in more detail. We will start by plotting their length

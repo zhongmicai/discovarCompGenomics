@@ -32,11 +32,15 @@ exonGraph
 
 # find and graph most conserved elements ----------------------------------
 
-mafFile="data/subTree_18Genomes_Hmel201001.maf"
+mafFile="data/subTree_18Genomes_Hmel201009.maf"
 gffFile="data/Hmel2.gff"
-scaffoldName="Hmel201001"
+scaffoldName="Hmel201009"
 referenceName="HmelRef"
 newickTree=butterflyTree
+coverage=.55
+leng=30
+
+getConservedRegions(mafFile,gffFile,scaffoldName,referenceName,newickTree,30,.55)
 
 getConservedRegions <- function(mafFile,gffFile,scaffoldName, referenceName, newickTree, leng, coverage){
   # read alignment
@@ -69,9 +73,11 @@ getConservedRegions <- function(mafFile,gffFile,scaffoldName, referenceName, new
   #predict conserved model
   
   #predict conserved elements with phastCons
-  pc <- phastCons(align, neutralMod, expected.length=leng,target.coverage=coverage,viterbi=TRUE, rho=.1)
+  pc <- phastCons(align, neutralMod, expected.length=leng,target.coverage=coverage,viterbi=TRUE)
   consElements <- pc$most.conserved
-  write.feat(consElements,paste0(scaffoldName,"conservedElements.gff"))
+  output <- consElements
+  output$seqname=scaffoldName
+  write.feat(output,paste0(scaffoldName,"conservedElements.gff"))
   
   #number of conserved bases
   #coverage.feat(consElements)
@@ -95,13 +101,17 @@ getConservedRegions <- function(mafFile,gffFile,scaffoldName, referenceName, new
   phyloPTrack <- as.track.wig(coord=pp$coord, score=pp$score, name="phyloP score",
                               col="blue", smooth=TRUE, horiz.line=0)
   plot.track(list(geneTrack, consElTrack, phastConsScoreTrack, phyloPTrack),
-             xlim=c(0, 50000), cex.labels=1.25, cex.axis=1.25, cex.lab=1.5,main=paste(scaffoldName,"Conserved Elements"))
+             xlim=c(0, 100000), cex.labels=1.25, cex.axis=1.25, cex.lab=1.5,main=paste(scaffoldName,"Conserved Elements"))
 }
   
 # define tree using Newick string
 butterflyTree <- "(((HmelRef,HmelDisco),(Hcyd,Htim)),Hnum);"
+lepTree <- "(Papilio_glaucus_v1x1 (Lerema_accius_v1x1 (Danaus_plexippus_v3 (Bicyclus_anynana_v1 (Melitaea_cinxia_v1 Heliconius_melpomene_v2)))));"
+drosTree <- '((droGri2:0.183954,droVir3:0.093575):0.000000,(droMoj3:0.110563,((((droBip:0.034265,droAna3:0.042476):0.121927,(droKik:0.097564,((droFic:0.109823,(((dm3:0.023047,(droSim1:0.015485,droSec1:0.015184):0.013850):0.016088,(droYak2:0.026909,droEre2:0.029818):0.008929):0.047596,(droEug:0.102473,(droBia:0.069103,droTak:0.060723):0.015855):0.005098):0.010453):0.008044,(droEle:0.062413,droRho:0.051516):0.015405):0.046129):0.018695):0.078585,(droPer1:0.007065,dp4:0.005900):0.185269):0.068212,droWil1:0.259408):0.097093):0.035250);'
 
 getConservedRegions("data/subTree_18Genomes_Hmel201009.maf","data/Hmel2.gff","Hmel201009","HmelRef",butterflyTree, 6,.50)
+
+
 
 
 # extract genic regions, translate, and re-align --------------------------
