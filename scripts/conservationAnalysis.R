@@ -81,15 +81,19 @@ referenceName="HmelRef"
 
 # extract genic regions, translate, and re-align --------------------------
 
-# extractFeatures <- function(mafFile,gffFile, scaffoldName, referenceName){
-#   align <- read.msa(mafFile)
-#   # read gene annotations from a gff file
-#   feats <- read.feat(gffFile)
-#   scaffoldFeats <- subset(feats, seqname==scaffoldName)
-#   scaffoldFeats$seqname <- referenceName
-#   scaffoldFeats <- scaffoldFeats[scaffoldFeats$feature == "exon",]
-#   return(extract.feature.msa(x = align,features = scaffoldFeats))
-# }
-# 
-# genes <- extractFeatures("data/subTree_18Genomes_Hmel201001.maf","data/Hmel2.gff","Hmel201001","HmelRef")
+extractFeatures <- function(mafFile,gffFile, scaffoldName, referenceName){
+  align <- read.msa(mafFile)
+  # read gene annotations from a gff file
+  feats <- read.feat(gffFile)
+  scaffoldFeats <- subset(feats, seqname==scaffoldName)
+  scaffoldFeats$seqname <- referenceName
+  scaffoldFeats <- scaffoldFeats[scaffoldFeats$feature == "exon",]
+  return(split.by.feature.msa(x=align,f=scaffoldFeats))
+  #return(extract.feature.msa(x = align,features = scaffoldFeats))
+}
 
+genes <- extractFeatures("data/subTree_18Genomes_Hmel201001.maf","data/Hmel2.gff","Hmel201001","HmelRef")
+mafFile <- "data/subTree_18Genomes_Hmel201001.maf"
+gffFile <- "data/Hmel2.gff"
+scaffoldName <- "Hmel201001"
+referenceName <- "HmelRef"
