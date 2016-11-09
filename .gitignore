@@ -17,3 +17,9 @@ results/subTreeAlignmentDepth.wig
 *.tsv
 
 results/subTreeAlignmentDepth.genome
+
+results/short_subTreeAlignmentDepth.wig
+
+*.idx
+
+results/subTreeAlignmentDepth.wig.tdf
