@@ -13,6 +13,8 @@ parser.add_argument('--feat', type=str,
                     help='feature (gff or bed) file to compare deletions to')
 parser.add_argument('--overlap', default='1.0',type=str,
                     help='amount of overlap necessary to report deleted feature')
+parser.add_argument('--fasta',type=str,
+                    help='fasta file of genome; use if you want to output a fasta file of deleted genes')
 parser.add_argument('-o', type=str,
                     help='prefix of output files')
 args = parser.parse_args()
@@ -48,6 +50,14 @@ if args.feat:
     (args.overlap, args.feat, args.o+"_allDeletions.bed", args.o+"_deletedFeatures.bed" )
 print interCommand
 os.system(interCommand)
+
+#If fasta is provided, output fasta sequences of deleted genes
+if args.fasta:
+    filterCommand='grep exon '+args.o+'_deletedFeatures.bed > '+args.o+'_deletedFeatures_exons.bed'
+    os.system(filterCommand)
+    fastaCommand='''bedtools getfasta -fi %s -bed %s -fo %s''' % \
+    (args.fasta,args.o+"_deletedFeatures_exons.bed",args.o+"deletedFeatures.fasta")
+    os.system(fastaCommand)
 
 #clean up
 os.system("rm -f intersect_tmp.out")

@@ -26,8 +26,10 @@ limit_info = dict(
 mafs=[]
 for rec in GFF.parse(gff_handle, limit_info=limit_info):
     for i in range(len(rec.features)):
-        search=mafIndex.search([rec.features[i].location.start],[rec.features[i].location.end])
-        for align in sea
+        print rec.features[i].location.start, rec.features[i].location.end
+        #search=mafIndex.search([rec.features[i].location.start],[rec.features[i].location.end])
+        #for align in search:
+        #    print align
 gff_handle.close()
 
 m=mafs[0]
