@@ -13,7 +13,7 @@
 For coverage depth
 
 Shell script: 
-(./getDepth.sh) - hard-coded controller for 1:1 comparisons of reference genomes to conspecific DISCOVAR genomes
+(https://github.com/nbedelman/DiscovarCompGenomics/blob/master/referenceAlignmentQuality/getDepth.sh) - hard-coded controller for 1:1 comparisons of reference genomes to conspecific DISCOVAR genomes
 
 R Script:
 
