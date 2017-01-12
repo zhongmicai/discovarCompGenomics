@@ -1,5 +1,7 @@
 #Assess alignment of reference genomes to conspecific DISCOVAR genomes
 
+###This should give us some idea of how well the alignment worked, and possibly some idea of how good the DISCOVAR genomes are. In the case of melpomene, the DISCOVAR and reference individual are cousins. In the case of erato, I'm not sure how closely related the two individuals are, but we should find that out, and they are certainly more distantly related than the melpomene ones. 
+
 ##Factors to consider: 
 - Depth (Percent of genome aligned)
 	- Break this down into genic and non-genic regions
