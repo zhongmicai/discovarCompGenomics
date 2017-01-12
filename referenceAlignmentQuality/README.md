@@ -12,8 +12,9 @@
 
 For coverage depth
 
-Shell script: 
-(https://github.com/nbedelman/DiscovarCompGenomics/blob/master/referenceAlignmentQuality/getDepth.sh) - hard-coded controller for 1:1 comparisons of reference genomes to conspecific DISCOVAR genomes
+scripts: 
+[shell script](getDepth.sh) - hard-coded controller for 1:1 comparisons of reference genomes to conspecific DISCOVAR genomes
+[slurm script](getAlignmentDepth.slurm) - slurm command to run halAlignmentDepth and wigToBed on the cluster
 
 R Script:
 
