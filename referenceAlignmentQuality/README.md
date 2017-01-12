@@ -12,23 +12,10 @@
 
 For coverage depth
 
-Shell script:
+scripts: 
+[shell script](getDepth.sh) - hard-coded controller for 1:1 comparisons of reference genomes to conspecific DISCOVAR genomes
+[slurm script](getAlignmentDepth.slurm) - slurm command to run halAlignmentDepth and wigToBed on the cluster
 
-```bash
-#Find the alignment depth of the relevant comparisons
-halAlignmentDepth --targetGenomes HmelDisco --outWiggle coverageDepth_melpomene_refToDisco.wig <halPath> HmelRef 
-halAlignmentDepth --targetGenomes HmelRef --outWiggle coverageDepth_melpomene_discoToRef.wig <halPath> HmelDisco
-halAlignmentDepth --targetGenomes HeraDisco --outWiggle coverageDepth_erato_refToDisco.wig <halPath> HeraRef 
-halAlignmentDepth --targetGenomes HeraRef --outWiggle coverageDepth_erato_discoToRef.wig <halPath> HeraDisco
-
-#take the coverage files and make bed files with all the covered regions. The numbers at the end are minCov, maxGap, minLength of blocks
-wigToBed.py coverageDepth_melpomene_refToDisco.wig coverageDepth_melpomene_refToDisco.bed 1 0 1
-wigToBed.py coverageDepth_melpomene_discoToRef.wig coverageDepth_melpomene_refToDisco.bed 1 0 1
-wigToBed.py coverageDepth_erato_refToDisco.wig coverageDepth_melpomene_refToDisco.bed 1 0 1
-wigToBed.py coverageDepth_melpomene_refToDisco.wig coverageDepth_melpomene_refToDisco.bed 1 0 1
-
-#
-```
 R Script:
 
 ```R
