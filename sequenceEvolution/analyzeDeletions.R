@@ -4,12 +4,19 @@ library(ggplot2)
 library(ggthemes)
 library(rphast)
 
-helDeletions=read.csv("sequenceEvolution/heliconiusDeletions_DanaeusRef.bed",sep="\t", header = F, col.names = c("scaffold","start","end"))
+helDeletions=read.csv("sequenceEvolution/helDeletions_toBmor_allGenomes/heliconiusDeletions_bombyxRef_allGenomes.bed",sep="\t", header = F, col.names = c("scaffold","start","end"))
 helDeletions$length=helDeletions$end-helDeletions$start
 helDeletionsNumBlocks=length(helDeletions$length)
 helDeletionsTotal=sum(helDeletions$length)
 
 notTinyDels <- subset(helDeletions, length>100)
+
+ggplot(data=helDeletions, aes(x=length)) + 
+  stat_density(aes(y=..count..)) + 
+  scale_y_continuous(breaks=c(0,1,10,100,1000), trans="log1p") +
+  ggtitle("Distribution of Deletion Size") +
+  labs(y="count (log)")
+
 
 DPSCF300401=read.msa("sequenceEvolution/DPOGS210663_orthologs.maf")
 delRegion=sub.msa(DPSCF300401,seqs = c("Dple","Mcin","Avan","Etal" ,"Ldor","Hbes" ,"Hpar","Hnum" ,"Htim","Hcyd", "HmelRef","HmelDisco","Htel","Hhsa","HeraDisco","Hhim","HeraHhimHyb","Hsar" ,"Hdem" ,"HeraRef","Bany"),
