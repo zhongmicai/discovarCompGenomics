@@ -74,13 +74,33 @@ TMpctIntronsCov=TMintronOverlapsTotal/intronsTotal
 TMpctintergenicCov=TMintergenicOverlapsTotal/intergenicTotal
 
 
+########################## Bombyx To Melpomene ########################
+BMexonOverlaps=read.csv("AlignmentStats/alignmentDepth_BmorToHmel_exons.bed",sep="\t", header = F, col.names = c("alignedScaf","alignedStart","alignedEnd","exonScaf","exonLabel","exonLabel2","exonStart","exonEnd","dot","dash","dot2","ID","overlapLength"))
+BMexonOverlapsTotal=sum(BMexonOverlaps$overlapLength)
+
+####
+
+BMintronOverlaps=read.csv("AlignmentStats/alignmentDepth_BmorToHmel_introns.bed",sep="\t", header = F, col.names = c("alignedScaf","alignedStart","alignedEnd","intronScaf","intronLabel","intronLabel2","intronStart","intronEnd","dot","dash","dot2","ID","overlapLength"))
+BMintronOverlapsTotal=sum(BMintronOverlaps$overlapLength)
+###
+
+BMintergenicOverlaps=read.csv("AlignmentStats/alignmentDepth_BmorToHmel_intergenic.bed",sep="\t", header = F, col.names = c("alignedScaf","alignedStart","alignedEnd","intergenicScaf","intergenicStart","intergenicEnd","overlapLength"))
+BMintergenicOverlapsTotal=sum(BMintergenicOverlaps$overlapLength)
+
+
+###
+
+BMpctExonCov=BMexonOverlapsTotal/exonsTotal
+BMpctIntronsCov=BMintronOverlapsTotal/intronsTotal
+BMpctintergenicCov=BMintergenicOverlapsTotal/intergenicTotal
+
 #####
-df <- data.frame(labels=c(rep(c("exons","introns","intergenic"),3)), 
-                 align=c(rep("H. melpomene DISCO to H. melpomene ref",3),rep("H. erato ref to H. melpomene ref",3),rep("E. tales to H. melpomene ref",3)), 
-                 values=c(pctExonCov,pctIntronsCov,pctintergenicCov,EMpctExonCov,EMpctIntronsCov,EMpctintergenicCov,TMpctExonCov,TMpctIntronsCov,TMpctintergenicCov))
+df <- data.frame(labels=c(rep(c("exons","introns","intergenic"),4)), 
+                 align=c(rep("H. melpomene DISCO to H. melpomene ref",3),rep("H. erato ref to H. melpomene ref",3),rep("E. tales to H. melpomene ref",3),rep("B. mori to H. melpomene ref",3)), 
+                 values=c(pctExonCov,pctIntronsCov,pctintergenicCov,EMpctExonCov,EMpctIntronsCov,EMpctintergenicCov,TMpctExonCov,TMpctIntronsCov,TMpctintergenicCov,BMpctExonCov,BMpctIntronsCov,BMpctintergenicCov))
 
 df$labels=factor(df$labels, levels=c("exons","introns","intergenic"))
-df$align=factor(df$align, levels=c("H. melpomene DISCO to H. melpomene ref","H. erato ref to H. melpomene ref","E. tales to H. melpomene ref"))
+df$align=factor(df$align, levels=c("H. melpomene DISCO to H. melpomene ref","H. erato ref to H. melpomene ref","E. tales to H. melpomene ref","B. mori to H. melpomene ref"))
 
 x <- ggplot(df)+
   geom_bar(aes(x=labels,y=values,fill=align), stat="identity",position = "dodge")+
