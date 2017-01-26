@@ -1,30 +1,69 @@
 # DiscovarCompGenomics
 
-Contents of folders:
+## Project to study Evolutionary dynamics across *Heliconius* using whole-genome DISCOVAR sequencing and progressiveCactus alignment
 
-Data
-**Turns out the data is too big to easily put onto github...these files can be found on odyssey at /n/regal/mallet_lab/edelman/18Genomes/results/DiscovarCompGenomics/data**
 
-  - Hmel2.gff is the gff file with gene calls from the Hmel2 January 2016 release
-  - subTree_18Genomes.hal is the output from progressive cactus of the tree with
-      H. melpomene reference, H. melpomene discovar, H. cydno, H. timareta, and H. numata
-  - subTree_18Genomes_Hmel201001.maf is the output of extractMaf.sh subTree_18Genomes.hal HmelRef Hmel201001
-      i.e. it is a maf file with the alignment referenced on HmelRef (Hmel2) for the scaffold Hmel201001
-  - progressiveCactusTree.txt is a newick format tree of the FULL DISCOVAR alignment which has not yet been run
+### [Assembly quality](AssemblyStats)
+Goals:  
 
-Scripts
-  - coveragePipeline.sh is a wrapper script to run the data processing from the hal output of cactus to fasta files.
-      currently (June 30) it only gets as far as finding blocks of high alignment depth.
-  - coveragePipeline.slurm is a command to run coveragePipeline.sh on the odyssey cluster
-  - extractMaf.sh is a script that takes a hal alignment, a reference genome, and a sequence name and outputs a maf file.
-      It uses the command hal2maf --noAncestors --refGenome $refGenome --refSequence $scafName $halFile $mafFile
-  - mafToFasta.py takes a maf file and outputs the aligned sequences in fasta format
-  - wigToBed.py is a script that takes a wig file, and extracts regions of interest based on depth,length, and gap length
-      outputs a bed file indicating each high quality region
+1) create Lepbase-esque circle plot of all genomes used in this study
+  - [github repository](https://github.com/rjchallis/assembly-stats)  
+  
+2) [evaluate completeness of DISCOVAR melpomene by comparing to Hmel2](referenceAlignmentQuality)  
 
-Documents
-  - DISCOVAR paper plan outline.docx is the original plan I sent on 3/21/16
-  - DISCOVAR_DC_outline.docx is the modified plan we came up with after meeting; this was uploaded on 4/17/16
+  - *alignment depth* 
+  - *break into genic vs intergenic*
+  - *find syntenic breaks DISCOVAR vs reference* (haltools syntenyRates.py)
+  - *differences in alignment of erato ref and erato DISCO to Hmel2. Also melpomene ref and Disco to Erato ref*
 
-Results
-  *Nothing in here yet! a place holder for results when they come.
+### [Alignment Quality](AlignmentStats)
+Ideas:    
+
+  - pairwise alignment depth
+  - all-Genomes alignment depth (which genome should it be based on?? melpomene?)
+  - GO categories of genes that are conserved throughout (do we get all the housekeeping genes?)
+  - exonic vs intronic vs intergenic
+
+
+### [Phylogeny](phylogenies)
+
+  - Paul
+  - *Generate CDS tree, 4D sites tree, non-coding tree, UCE tree, non-UCE tree, full coverage sites* 
+  
+    - *>= 10 starting trees *
+    - *bootstraps until MRE returns converged result*
+
+
+### [Genome structure conservation](structuralEvolution)
+
+  - Rebecca
+  - show syntenic breaks
+  - This might be a messy figure with so many genomes/comparisons, so maybe we can just look for major differences and think of a way to  display them well
+
+### [Genome sequence conservation](sequenceEvolution)  
+
+  - Nate
+  - Deletions   
+     - *findRegionsExclusivelyInGroup*
+     - both deletions in heliconius and deletions in outgroups (duplications in heliconius)
+     - Use cDNA-based annotations to analyze exons vs introns vs intergenic deletions
+     - GO terms
+  - sequence conservation  
+    - *halphylop*
+    - proportion conserved across group
+    - proportion conserved within heliconius
+    - proportion conserved within clades
+    - Motifs???
+    
+  - For statistical interest, compare random subsets *look into halRandGen*
+  - for all groups, look at coding vs non-coding
+  
+  - Evolutionary rates/Positive Selection
+    - *see above* 
+    - dN/dS along all branches	
+    - substitution rate
+    - comparison as above
+
+### Candidate loci exploration
+
+

@@ -9,10 +9,10 @@
 *.gff
 *.gz
 data/nano.save
+*.err
+*.out
+*.wig
 
-results/subTreeAlignmentDepth.wig
-
-*.bed
 
 *.tsv
 
