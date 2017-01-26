@@ -1,7 +1,10 @@
 ###First aim: find heliconius-specific deletions
 
 use this [script](deletions/findDeletions.slurm), which relies on the halTools script findRegionsExclusivelyInGroup.    
-How I use it: findRegionsExclusivelyInGroup halFile Bombyx  all non-heliconius genomes
+How I use it: 
+```shell
+findDeletions.slurm halFile Bombyx  all non-heliconius genomes
+```
 - I use Bombyx as reference because that genome is well-annotated, and if I'm really looking for all
 regions that are in ALL non-heliconians it doesn't matter which one I use as reference.     
 
