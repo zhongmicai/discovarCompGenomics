@@ -1,19 +1,26 @@
 # DiscovarCompGenomics
 
-## Project to study Evolutionary dynamics across Heliconius using whole-genome DISCOVAR sequencing  
+## Project to study Evolutionary dynamics across *Heliconius* using whole-genome DISCOVAR sequencing and progressiveCactus alignment
 
-## Sections: 
 
 ### Assembly quality
 Goals:   
 1) create Lepbase-esque circle plot of all genomes used in this study
+  - [github repository](https://github.com/rjchallis/assembly-stats)  
+  
 2) evaluate completeness of DISCOVAR melpomene by comparing to Hmel2  
 
   - *alignment depth* 
   - *break into genic vs intergenic*
   - *find syntenic breaks DISCOVAR vs reference* (haltools syntenyRates.py)
+  - *differences in alignment of erato ref and erato DISCO to Hmel2. Also melpomene ref and Disco to Erato ref*
 
-Figure 2: Whole genome tree
+### Alignment Quality
+
+
+
+### Phylogeny
+
   - *Generate CDS tree, 4D sites tree, non-coding tree, UCE tree, non-UCE tree, full coverage sites*
     - *>= 10 starting trees *
     - *bootstraps until MRE returns converged result*
