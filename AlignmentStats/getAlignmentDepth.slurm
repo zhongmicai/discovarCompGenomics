@@ -3,7 +3,7 @@
 #getAlignmentDepth.slurm
 
 #SBATCH -n 16
-#SBATCH -t 0-05:00
+#SBATCH -t 1-00:00
 #SBATCH --mem=10000
 #SBATCH -p serial_requeue
 #SBATCH -o getAlignmentDepth.out
