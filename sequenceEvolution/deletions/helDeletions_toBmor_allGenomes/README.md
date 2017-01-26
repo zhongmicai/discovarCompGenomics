@@ -16,6 +16,12 @@ Then, divided deletions out among exons, introns, and intergenic regions. Intere
 ```shell
 intersectBed -wo -a heliconiusDeletions_bombyxRef_allGenomes.bed -b <gff_of_interest> > output
 ```
+need to know how many intronic, exonic, intergenic bases were aligned among non-heliconius lepidopterans in the first place:
+
+```shell
+sbatch specificAlignmentDepth.slurm ../../../data/finalAssemblies_highQual_1kbFilter_161101.hal Bmor outgroupAlignmentDepth.wig outgroupAlignmentDepth.bed Pxyl,Lacc,Ppol,Dple,Bany,Mcin,Avan,Etal 8
+```
+
 
 To do:  
 1) need to know how many intronic, exonic, intergenic bases were aligned among non-heliconius lepidopterans in the first place.   
