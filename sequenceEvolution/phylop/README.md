@@ -12,3 +12,4 @@ and called it with
 ```
 sbatch phyloPTrain.slurm /n/regal/mallet_lab/edelman/18Genomes/results/DiscovarCompGenomics/data/finalAssemblies_highQual_1kbFilter_161101.hal Bmor Bmor_cDNA_exon.bed fullPhylogeny_neutralModel.mod
 ```
+Should think about the benefits of doing this with monarch as the reference...will it make a difference??
