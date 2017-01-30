@@ -3,9 +3,9 @@
 #phyloptrain.slurm
 
 
-#SBATCH -n 4
+#SBATCH -n 16
 #SBATCH -t 1-00:00
-#SBATCH --mem=10000
+#SBATCH --mem=50000
 #SBATCH -p serial_requeue
 #SBATCH -o phylopTrain.out
 #SBATCH -e phylopTrain.err
@@ -15,4 +15,4 @@ refGenome=$2
 bedFile=$3
 outFile=$4
 
-halPhyloPTrain.py --numProc 4 --noAncestors $halFile $refGenome $bedFile $outFile
+halPhyloPTrain.py --numProc 16 --noAncestors $halFile $refGenome $bedFile $outFile
