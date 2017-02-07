@@ -12,7 +12,7 @@ data/nano.save
 *.err
 *.out
 *.wig
-
+*.bed
 
 *.tsv
 
