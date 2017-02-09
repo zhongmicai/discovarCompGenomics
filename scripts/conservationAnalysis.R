@@ -8,18 +8,53 @@ library(seqinr)
 
 
 # coverage depth ----------------------------------------------------------
-#make a pie chart of coverage depth
-depths=read.delim("data/finalData_subTree/finalAssemblies_expandedSubTree_alignmentDepth_coverageDistribution.tsv", header=F,col.names=c("coverage","values"))
+
+depths=read.delim("AlignmentStats/allToMelpomene/alignmentDepth_allGenomes_bombyxRef_coverageDistribution.tsv", header=F,col.names=c("coverage","values"))
 depths$coverage=as.character(depths$coverage)
-depths$coverage=factor(depths$coverage, levels=c("0","1","2","3","4","5","6"))
+depths$coverage=factor(depths$coverage, levels=as.character(seq(0,24)))
 
 
 depth <- ggplot(data=depths, aes(x=coverage,y=values/sum(depths$values),fill=coverage))+
   geom_bar(width=1, stat="identity")+geom_label(label=round(depths$values/sum(depths$values),3)) +
   labs(title="Alignment Coverage",x="Coverage Depth",y="Fraction of Alignment")
 depth
-pie <- depth+coord_polar("y",start=0)
-pie
+
+#cumulative Coverage
+cumCov=c()
+count=0
+for (cov in levels(depths$coverage)){
+  place=which(depths$coverage==cov)
+  count=count+depths[place,2]
+  cumCov=c(cumCov,count/sum(depths$values))
+}
+cumDF <- data.frame(coverage=seq(0,24), depth=cumCov)
+
+cumDepth <- ggplot(data=cumDF, aes(x=coverage,y=depth))+
+  geom_bar(width=.75, stat="identity")+#geom_label(label=round(cumDF$depth,3)) +
+  labs(title="Cumulative Alignment Coverage",x="Coverage Depth",y="Fraction of Alignment")
+cumDepth
+
+#cumulative coverage Most to Least
+revCumCov=c()
+count=0
+for (cov in rev(levels(depths$coverage))){
+  place=which(depths$coverage==cov)
+  count=count+depths[place,2]
+  revCumCov=c(revCumCov,count)
+}
+revCumDF <- data.frame(coverage=seq(24,0), depth=revCumCov, cat=c(rep("butterfly",23),"moth","unaligned"))#cat=c(rep("moth",2),"skipper","Papillionidae", rep("Nymphalidae",3),rep("Heliconiinae",2),rep("Heliconius",9),rep("melpomene group",5),"melpomene","Unaligned"))
+revCumDF$coverage <- factor(revCumDF$coverage,levels=seq(24,0))
+
+  revCumDepthPCT <- ggplot(data=revCumDF, aes(x=coverage,y=depth/sum(depths$values), fill=cat)) +
+    geom_bar(width=.75, stat="identity")+#geom_label(label=round(cumDF$depth,3)) +
+    labs(title="Cumulative Alignment Coverage on B. mori",x="Coverage Depth",y="Fraction of Alignment")
+  revCumDepthPCT
+
+revCumDepth <- ggplot(data=revCumDF, aes(x=coverage,y=depth, fill=cat)) +
+  geom_bar(width=.75, stat="identity")+#geom_label(label=round(cumDF$depth,3)) +
+  labs(title="Cumulative Alignment Coverage",x="Coverage Depth",y="Fraction of Alignment")
+revCumDepth
+
 
 #for exons only:
 exonDepth=read.delim("results/exonDepth.bed", header=F,col.names=c("chrom","start","end","id","coverage"))
