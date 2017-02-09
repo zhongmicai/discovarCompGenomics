@@ -15,6 +15,9 @@ data/nano.save
 *.bed
 *.gff3
 *.tsv
+*.ss
+*.phy
+*.mod
 
 results/subTreeAlignmentDepth.genome
 
