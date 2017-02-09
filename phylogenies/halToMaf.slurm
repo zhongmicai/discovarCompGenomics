@@ -10,8 +10,7 @@
 #SBATCH -e halToMaf.err
 
 refGenome=$1
-refTargets=$2
-halFile=$3
-mafFile=$4
+halFile=$2
+mafFile=$3
 
-hal2maf --noAncestors --refTargets $refTargets --refGenome $refGenome $halFile $mafFile
+hal2maf --noAncestors --refGenome $refGenome $halFile $mafFile

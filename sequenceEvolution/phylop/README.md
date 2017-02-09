@@ -13,3 +13,11 @@ and called it with
 sbatch phyloPTrain.slurm /n/regal/mallet_lab/edelman/18Genomes/results/DiscovarCompGenomics/data/finalAssemblies_highQual_1kbFilter_161101.hal Bmor Bmor_cDNA_exon.bed fullPhylogeny_neutralModel_BmorRef.mod
 ```
 Did the same thing with monarch and bicyclus...not sure if it will make a difference but it might because we'll presumably get more regions aligned with more species? Need to check this with halAlignmentDepth.
+
+Update 1/31
+The halPhyloP script takes a VERY long time, so I'll try to parallelize it. The easiest way, I think, is to run halPhyloP for each chromosome (or at least small groups...there are 4782 bombyx chromosomes). Made a txt file with a list of all the bombyx scaffold names with
+```
+grep NW /n/holylfs/INTERNAL_REPOS/PCACTUS/edelman/genomes/1kbFilter/Bombyx_mori_ASM15162v1_-_scaffolds.fa_1kb.fa | awk '{print $1}'> bombyxGE1kbScafNames.txt
+sed -i.bak 's/>/ /' bombyxGE1kbScafNames.txt
+rm -f bombyxGE1kbScafNames.txt.bak
+```

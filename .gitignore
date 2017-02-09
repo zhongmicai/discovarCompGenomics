@@ -12,8 +12,8 @@ data/nano.save
 *.err
 *.out
 *.wig
-
-
+*.bed
+*.gff3
 *.tsv
 
 results/subTreeAlignmentDepth.genome
