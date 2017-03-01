@@ -3,7 +3,7 @@
 #halToMaf.slurm
 
 #SBATCH -n 16
-#SBATCH -t 1-00:00
+#SBATCH -t 0-03:00
 #SBATCH --mem=10000
 #SBATCH -p serial_requeue
 #SBATCH -o halToMaf.out
@@ -12,5 +12,6 @@
 refGenome=$1
 halFile=$2
 mafFile=$3
+scaffold=$4
 
-hal2maf --noAncestors --refGenome $refGenome $halFile $mafFile
+hal2maf --noAncestors --refGenome $refGenome --refSequence $scaffold $halFile $mafFile

@@ -2,7 +2,7 @@
 
 #findDeletions.slurm
 
-#SBATCH -n 16
+#SBATCH -n 4
 #SBATCH -t 2-00:00
 #SBATCH --mem=10000
 #SBATCH -p serial_requeue
