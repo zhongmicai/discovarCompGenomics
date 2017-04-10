@@ -7,8 +7,8 @@ class gffEntry(object):
         self.chrom=atts[0]
         self.origin=atts[1]
         self.type=atts[2]
-        self.start=atts[3]
-        self.end=atts[4]
+        self.start=int(atts[3])
+        self.end=int(atts[4])
         self.strand=atts[6]
         self.fullDescription=atts[8]
     def getEntry(self):
@@ -23,6 +23,8 @@ class gffEntry(object):
         return self.start
     def getEnd(self):
         return self.end
+    def getLength(self):
+        return self.getEnd()-self.getStart()
     def getStrand(self):
         return self.strand
     def getFullDescription(self):
@@ -84,6 +86,13 @@ class fullGene(object):
             i=desc.split("translation_stable_id=")[1].split(";")[0].strip()
             ids.append(i)
         return ids
+    def getChrom(self):
+        return self.getAllEntries()[0].getChrom()
+    def getLargestExon(self):
+        lens=[]
+        for exon in self.getAllExons():
+            lens.append(exon.getLength())
+        return max(lens)
 
 
 def makeGffEntries(gffFile):

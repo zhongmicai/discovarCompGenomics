@@ -8,6 +8,6 @@ module load hal
 halFile=$1
 refGenome=$2
 scafName=$3
-mafFile=$(basename $halFile .hal)_/$scafName/.maf
+mafFile=$(basename $halFile .hal)_$scafName.maf
 
 hal2maf --noAncestors --refGenome $refGenome --refSequence $scafName $halFile $mafFile

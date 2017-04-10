@@ -6,8 +6,8 @@ import argparse
 import os
 import copy
 from Bio import SeqIO
-from gffClass import *
-from scaffoldLengths import *
+# from gffClass import *
+# from scaffoldLengths import *
 
 parser = argparse.ArgumentParser(description='Find and Validate Genes of Interest')
 
@@ -270,12 +270,12 @@ def getIntersections(deletionFile,intersectFile, options):
 
 if arguments.which=='findDeletions':
     getDeletions(arguments.alignment,arguments.refGenome, arguments.ingroupList,arguments.outputFile)
-    if arguments.i:
+    if arguments.intersectFile:
         optionList=["-wa",""]
-        if arguments.wo:
+        if arguments.writeOverlap:
             optionList[0]="-wo"
-        if arguments.f:
+        if arguments.percentOverlap:
             optionList[1]='''-f %s''' % (arguments.f)
         options='''%s %s''' % (optionList[0],optionList[1])
-        for intersect in arguments.i:
-            getIntersections(arguments.outputFile, i,options)
+        for intersect in arguments.intersectFile:
+            getIntersections(arguments.outputFile, intersect,options)

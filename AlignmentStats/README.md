@@ -8,7 +8,7 @@ for the pairwise comparisons, do halAlignmentDepth and wigToBed to get regions o
 
 Then, extract exons, introns, and intergenic regions from Hmel2.gff.
 
-To get the right bed files, first extract get the subset of the gff file that is actuallyin the alignment (greater than or equal to 1kb scaffolds). do:
+To get the right bed files, first extract the subset of the gff file that is actually in the alignment (greater than or equal to 1kb scaffolds). do:
 
 ```shell
 grep <scaffold identifier> <1kb+ genome>  | awk '{print $1}'|sed 's/>//g' > GE1KB_scaffs.txt
