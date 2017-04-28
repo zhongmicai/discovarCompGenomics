@@ -8,7 +8,7 @@
 *.pdf
 *.gff
 *.gz
-data/nano.save
+data/
 *.err
 *.out
 *.wig
